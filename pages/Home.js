@@ -5,7 +5,7 @@ class Home extends React.Component{
     render(){
         return(
           
-<Text>home</Text>
+<Text> home </Text>
             
         );
     }

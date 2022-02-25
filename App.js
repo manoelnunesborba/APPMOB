@@ -12,20 +12,20 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    
       <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
-              name="Home"
-              component={Home}
+                name="login"
+                component={Login}
+            />
+              <Stack.Screen
+                name="Home"
+                component={Home}
             />
             <Stack.Screen
-              name="Feed"
-              component={Feed}
-            />
-            <Stack.Screen
-              name="login"
-              component={Login}
+                name="Feed"
+                component={Feed}
             />
             <Stack.Screen
               name="UserDetails"
@@ -33,14 +33,7 @@ export default function App() {
             />
           </Stack.Navigator>
         </NavigationContainer>
-
-      <Text>WSHHH LEKIPPPPPP</Text>
-      <StatusBar style="auto" />
-      <Button
-        title="GO TO login"
-        onPress={() => Alert("bokoqskdoqskd")}
-      />
-    </View>
+    
   );
 }
 
