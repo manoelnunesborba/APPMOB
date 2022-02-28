@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
+
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import FooterMenu from './../component/FooterMenu.js'
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged   } from "firebase/auth";
+import { useNavigation } from '@react-navigation/core'
+
+
 const firebaseConfig = {
     apiKey: "AIzaSyD2XKLHd0H2O0l2Ae_qXjca7KNkn3U_IuI",
     authDomain: "topik-3ede8.firebaseapp.com",
@@ -23,6 +26,8 @@ class Login extends React.Component{
             password:""
         }
     }
+
+        
     handleSingup(e){
         const auth = getAuth();
         createUserWithEmailAndPassword(auth, this.state.email, this.state.email)
@@ -31,6 +36,20 @@ class Login extends React.Component{
                 console.log(user.email)
             })
             .catch(error=> alert(error))
+    }
+
+
+
+    handleLogIn(e){
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, this.state.email, this.state.email)
+            .then((userCredential) => {
+            const user = userCredential.user;
+            alert('réussit')
+            console.log("connecté autant que", user.email)
+    // ...
+        })
+        .catch(error=> alert(error))
     }
     render(){
         return(
@@ -55,7 +74,7 @@ class Login extends React.Component{
                 </View>
                 <View style={style.buttonContainer}>
                     <TouchableOpacity
-                    onPress={() => {}}
+                    onPress={evt => {this.handleLogIn(evt)}}
                     style={style.button}
                     >
                         <Text style={style.buttonText}>Se connecter</Text>
