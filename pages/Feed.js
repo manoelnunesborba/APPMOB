@@ -5,6 +5,7 @@ class Feed extends React.Component{
     render(){
         return (
             <Text>feed</Text>
+            
         )
     }
 }
