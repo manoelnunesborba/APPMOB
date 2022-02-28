@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { doc, setDoc, getFirestore,collection, addDoc  } from "firebase/firestore"; 
 
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged   } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useNavigation } from '@react-navigation/core'
 
 const Login = () => {
@@ -13,10 +14,14 @@ const Login = () => {
     const navigation = useNavigation()
 
     useEffect(() => {
+    const db = getFirestore();
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth,user => {
         if (user) {
             console.log("connecté", user.email)
+            const docRef = addDoc(collection(db, "utilisateurs"), {
+                login: user.email
+              });
           navigation.replace("Home")
         }
       })
@@ -43,11 +48,11 @@ const firebaseConfig = {
         createUserWithEmailAndPassword(auth, email, password)
             .then(userCredentials => {
                 const user = userCredentials.user;
-                console.log(user.email)
+                console.log(user.email);
+                
             })
             .catch(error=> alert(error));
     }
-
 
 
     const handleLogin = () => {
