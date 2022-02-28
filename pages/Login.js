@@ -1,6 +1,5 @@
 import React from 'react';
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 
 const firebaseConfig = {
@@ -14,8 +13,6 @@ const firebaseConfig = {
   };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
 class Login extends React.Component{
     render(){
         return(
