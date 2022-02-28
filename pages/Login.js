@@ -6,7 +6,7 @@ class Login extends React.Component{
     render(){
         return(
             
-<Text>login</Text>
+<Text> Oui </Text>
             
         );
     }
