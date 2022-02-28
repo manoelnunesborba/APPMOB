@@ -8,30 +8,52 @@ import Feed from './pages/Feed.js'
 import Home from './pages/Home.js'
 import Login from './pages/Login.js'
 import UserDetail from './pages/UserDetail.js'
+
+
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     
       <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator initialRouteName="Login"
+        screenOptions={({route, navigation}) => ({
+          headerRight: () => (
+            <CustomMaterialMenu
+              //Menu Text
+              menutext="Menu"
+              //Menu View Style
+              menustyle={{marginRight: 16}}
+              //Menu Text Style
+              textStyle={{color: 'white'}}
+              navigation={navigation}
+              route={route}
+              isIcon={true}
+            />
+          ),
+        })}>
+          
             <Stack.Screen
                 options={{headerShown:false}}
                 name="login"
                 component={Login}
             />
+
               <Stack.Screen
                 name="Home"
                 component={Home}
             />
+
             <Stack.Screen
                 name="Feed"
                 component={Feed}
             />
+
             <Stack.Screen
               name="UserDetails"
               component={UserDetail}
             />
+            
           </Stack.Navigator>
         </NavigationContainer>
     

@@ -4,7 +4,7 @@ import { KeyboardAvoidingView } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
+import FooterMenu from './../component/FooterMenu.js'
 const firebaseConfig = {
     apiKey: "AIzaSyD2XKLHd0H2O0l2Ae_qXjca7KNkn3U_IuI",
     authDomain: "topik-3ede8.firebaseapp.com",
