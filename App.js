@@ -16,22 +16,7 @@ export default function App() {
   return (
     
       <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login"
-        screenOptions={({route, navigation}) => ({
-          headerRight: () => (
-            <CustomMaterialMenu
-              //Menu Text
-              menutext="Menu"
-              //Menu View Style
-              menustyle={{marginRight: 16}}
-              //Menu Text Style
-              textStyle={{color: 'white'}}
-              navigation={navigation}
-              route={route}
-              isIcon={true}
-            />
-          ),
-        })}>
+          <Stack.Navigator >
           
             <Stack.Screen
                 options={{headerShown:false}}

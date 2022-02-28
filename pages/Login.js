@@ -8,6 +8,26 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
 import { useNavigation } from '@react-navigation/core'
 
 
+
+const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigation = useNavigation()
+
+    useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth,user => {
+        if (user) {
+            console.log("connecté", user.email)
+          navigation.replace("Home")
+        }
+      })
+  
+      return unsubscribe
+    }, [])
+
+
+
 const firebaseConfig = {
     apiKey: "AIzaSyD2XKLHd0H2O0l2Ae_qXjca7KNkn3U_IuI",
     authDomain: "topik-3ede8.firebaseapp.com",
@@ -18,31 +38,23 @@ const firebaseConfig = {
     measurementId: "G-GNRSP1HQ59"
   };
   const app = initializeApp(firebaseConfig);
-class Login extends React.Component{
-    constructor(){
-        super();
-        this.state={
-            email:"",
-            password:""
-        }
-    }
 
         
-    handleSingup(e){
+    const handleSignUp = () => {
         const auth = getAuth();
-        createUserWithEmailAndPassword(auth, this.state.email, this.state.email)
+        createUserWithEmailAndPassword(auth, email, password)
             .then(userCredentials => {
                 const user = userCredentials.user;
                 console.log(user.email)
             })
-            .catch(error=> alert(error))
+            .catch(error=> alert(error));
     }
 
 
 
-    handleLogIn(e){
+    const handleLogin = () => {
         const auth = getAuth();
-        signInWithEmailAndPassword(auth, this.state.email, this.state.email)
+        signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
             const user = userCredential.user;
             alert('réussit')
@@ -51,7 +63,6 @@ class Login extends React.Component{
         })
         .catch(error=> alert(error))
     }
-    render(){
         return(
             <KeyboardAvoidingView
             style={style.container}
@@ -60,27 +71,27 @@ class Login extends React.Component{
                 <View style={style.inputContainer}>
                     <TextInput
                     placeholder='Email'
-                    value={this.state.email}
-                    onChangeText={text => this.setState({email:text})}
+                    value={email}
+                    onChangeText={text => setEmail(text)}
                     style={style.input}
                     />
                     <TextInput
                     placeholder='Password'
-                    value={this.state.password}
-                    onChangeText={text => this.setState({password:text})}
+                    value={password}
+                    onChangeText={text => setPassword(text)}
                     style={style.input}
                     secureTextEntry
                     />
                 </View>
                 <View style={style.buttonContainer}>
                     <TouchableOpacity
-                    onPress={evt => {this.handleLogIn(evt)}}
+                    onPress={handleLogin}
                     style={style.button}
                     >
                         <Text style={style.buttonText}>Se connecter</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                    onPress={evt => {this.handleSingup(evt)}}
+                    onPress={handleSignUp}
                     style={[style.button, style.buttonOutline]}
                     >
                         <Text style={style.buttonOutlineText}>Créer un compte</Text>
@@ -92,7 +103,6 @@ class Login extends React.Component{
             
         );
     }
-}
 export default Login;
 
 const style = StyleSheet.create({
