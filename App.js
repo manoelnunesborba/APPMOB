@@ -25,20 +25,10 @@ export default function App() {
             />
 
               <Stack.Screen
+                options={{headerShown:false}}
                 name="Home"
                 component={Home}
             />
-
-            <Stack.Screen
-                name="Feed"
-                component={Feed}
-            />
-
-            <Stack.Screen
-              name="UserDetails"
-              component={UserDetail}
-            />
-            
           </Stack.Navigator>
         </NavigationContainer>
     
