@@ -1,24 +1,26 @@
-import { useNavigation } from '@react-navigation/native';
+
+
+
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from '../pages/Home.js'
 import { StyleSheet, Text, View, Button, Alert, styles } from 'react-native'
 
 
 
-export default function WelcomePage() {
-
-    const navigation = useNavigation();
+export default function BottomTab() {
+    
+    const Tab = createBottomTabNavigator();
 
     return (
 
-        <View style={styles.Button}>
-            <Text>Accueil</Text>
-            <TouchableOpacity activeOpacity={0.7}
-                style={styles.buttonStyle}
-                onPress={() => navigation.navigate('Home')}>
-                <Text>Profil</Text>
-            </TouchableOpacity >
-        </View>
+        
+        <Tab.Navigator>
+            <Tab.Screen name="Login" component={Login} />
+            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="UserDetail" component={UserDetail}/>
+        </Tab.Navigator>
         
     );
 }

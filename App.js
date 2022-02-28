@@ -3,6 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Feed from './pages/Feed.js'
 import Home from './pages/Home.js'
@@ -10,54 +12,29 @@ import Login from './pages/Login.js'
 import UserDetail from './pages/UserDetail.js'
 
 
-const Stack = createStackNavigator();
+
+
+
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    
-      <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login"
-        screenOptions={({route, navigation}) => ({
-          headerRight: () => (
-            <CustomMaterialMenu
-              //Menu Text
-              menutext="Menu"
-              //Menu View Style
-              menustyle={{marginRight: 16}}
-              //Menu Text Style
-              textStyle={{color: 'white'}}
-              navigation={navigation}
-              route={route}
-              isIcon={true}
-            />
-          ),
-        })}>
-          
-            <Stack.Screen
-                name="login"
-                component={Login}
-            />
+    <NavigationContainer>
 
-              <Stack.Screen
-                name="Home"
-                component={Home}
-            />
-
-            <Stack.Screen
-                name="Feed"
-                component={Feed}
-            />
-
-            <Stack.Screen
-              name="UserDetails"
-              component={UserDetail}
-            />
-            
-          </Stack.Navigator>
-        </NavigationContainer>
-    
+      <Tab.Navigator>
+          <Tab.Screen name="Login" component={Login} />
+          <Tab.Screen name="Home" component={Home} />
+          <Tab.Screen name="Feed" component={Feed}/>
+          <Tab.Screen name="UserDetail" component={UserDetail}/>
+      </Tab.Navigator>
+     
+    </NavigationContainer>
   );
 }
+
+
+
 
 const styles = StyleSheet.create({
   container: {
