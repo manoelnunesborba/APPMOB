@@ -1,25 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Alert} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
+import { firestore } from '@react-native-firebase/firestore';
 import { initializeApp } from "firebase/app";
+import { collection, getDocs } from "firebase/firestore"; 
 
 <>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 </>
 
+const firebase = require("firebase");
+// Required for side-effects
+require("firebase/firestore");
+
 
 class Feed extends React.Component{
     render(){
         return (
-            <>
+            <View>
                 <Text style={style.welcomeText}>
                     Bienvenue dans le Feed de Topik ! {"\n"} {"\n"}
                 </Text>
                 <Text style={style.Text}>
                     Voici la liste des Topiks :
                 </Text>
-            </>
+                getFeedToScreen();
+            </View>
                
         )
     }
@@ -38,13 +44,14 @@ const firebaseConfig = {
   };
 const app = initializeApp(firebaseConfig);
 
-const topikCollection = firestore().collection('topics').get().then(querySnapshot => {
-    console.log('Topik total : ', querySnapshot.size);
-    querySnapshot.forEach(documentSnapshot => {
-        consoele.log('Titre du topik : ', documentSnapshot.titre);
-    });
-});
+var db = firestore();
 
+function getFeedToScreen() {
+    const querySnapshot = await getDocs(collection(db, "topics"));
+    querySnapshot.forEach((doc) => {
+     console.log(`${doc.titre} => ${doc.auteur}`);
+    });
+}
 export default Feed;
 
 
