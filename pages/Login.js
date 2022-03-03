@@ -68,6 +68,10 @@ const firebaseConfig = {
             style={style.container}
             behavior="padding"
             >
+                <Text style={style.buttonText}>
+                    Authentification
+                </Text>
+
                 <View style={style.inputContainer}>
                     <TextInput
                     placeholder='Email'
@@ -90,6 +94,8 @@ const firebaseConfig = {
                     >
                         <Text style={style.buttonText}>Se connecter</Text>
                     </TouchableOpacity>
+                </View>
+                <View style={style.buttonContainer}>
                     <TouchableOpacity
                     onPress={handleSignUp}
                     style={[style.button, style.buttonOutline]}
@@ -142,8 +148,6 @@ const style = StyleSheet.create({
         fontSize:16,
     },
     buttonOutline:{
-
-
     },
     buttonOutlineText:{
         color:'#FD405E',
