@@ -1,26 +1,18 @@
-import React from "react";
-import { StyleSheet, Text, View, Button, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, Button, Alert, Form } from "react-native";
+import { KeyboardAvoidingView } from 'react-native';
+
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import firestore from '@react-native-firebase/firestore';
-import { initializeApp } from "firebase/app";
+import Modal from "react-native-modal";
+
+import { firebase } from "../firebase/config";
 import {
   getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
+  updateEmail,
+  reauthenticateWithCredential,
+  AuthCredential,
+  EmailAuthCredential,
 } from "firebase/auth";
-
-
-const firebaseConfig = {
-  apiKey: "",
-  authDomain: "topik-3ede8.firebaseapp.com",
-  projectId: "topik-3ede8",
-  storageBucket: "topik-3ede8.appspot.com",
-  messagingSenderId: "774648378964",
-  appId: "1:774648378964:web:e92ddeb98eb174bc15dfc1",
-  measurementId: "G-GNRSP1HQ59",
-};
-initializeApp(firebaseConfig);
 
 const auth = getAuth();
 const user = auth.currentUser;
@@ -32,31 +24,104 @@ if (user !== null) {
   const uid = user.uid;
 }
 
-const Form = () =>{
-return (
-    <View>
-        <TextInput 
-        style={{height: 40}}
-        placeholder="Taper le nouveau mail"
-        />
-    </View>
-)
+let nvEmail = "";
+
+function changeEmail() {
+  updateEmail(auth.currentUser, nvEmail)
+    .then(() => {
+      // Email updated!
+      // ...
+      console.log("Email modifié");
+    })
+    .catch((error) => {
+      // An error occurred
+      // ...
+      console.log(error);
+    });
+}
+
+function setEmail(text) {
+  nvEmail = text;
 }
 
 class UserDetail extends React.Component {
+  state = { relog: false };
+
+  Form = () => {
+    return (
+      <View>
+        <TextInput
+          placeholder="Tapez le nouvel email"
+          onChangeText={(text) => setEmail(text)}
+          style={style.input}
+        />
+        <TouchableOpacity onPress={() => changeEmail()} style={style.button}>
+          <Text style={style.buttonOutlineText}>Valider</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  relog = () => {
+    const handleLogin = () => {
+      const credentials = new AuthCredential()
+      reauthenticateWithCredential()
+        .then((userCredential) => {
+          user = userCredential.user;
+          alert("réussit");
+          console.log("connecté autant que", user.email);
+          // ...
+        })
+        .catch((error) => alert(error));
+    };
+    
+    return (
+      <View>
+        <KeyboardAvoidingView style={style.container} behavior="padding">
+          <View style={style.inputContainer}>
+            <TextInput
+              placeholder="Email"
+              onChangeText={(text) => setEmail(text)}
+              style={style.input}
+            />
+            <TextInput
+              placeholder="Password"
+              onChangeText={(text) => setPassword(text)}
+              style={style.input}
+              secureTextEntry
+            />
+          </View>
+          <View style={style.buttonContainer}>
+            <TouchableOpacity onPress={handleLogin} style={style.button}>
+              <Text style={style.buttonText}>Se connecter</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </View>
+    );
+  };
+
   render() {
     return (
       <View>
         <Text>Bienvenue dans la console utilisateurs</Text>
-        <Text>Vous êtes </Text>
         <View style={style.buttonContainer}>
-          <TouchableOpacity onPress={Form} style={style.button}>
-            <Text 
-            style={style.buttonText}>Modifier l'adresse mail</Text>
+          <TouchableOpacity
+            onPress={() => Alert.alert("Hello")}
+            style={style.button}
+          >
+            <Text style={style.buttonText}>Modifier l'adresse mail</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[style.button, style.buttonOutline]}>
-            <Text style={style.buttonOutlineText}>Réinitialiser le mot de passe</Text>
+          <TouchableOpacity
+            onPress={() => this.setState({ relog: true })}
+            style={[style.button, style.buttonOutline]}
+          >
+            <Text style={style.buttonOutlineText}>
+              Réinitialiser le mot de passe
+            </Text>
           </TouchableOpacity>
+          {this.state.Form ? this.Form() : null}
+          {this.state.relog ? this.relog() : null}
         </View>
       </View>
     );

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import * as firebase from '../firebase/config'
 import { doc, setDoc, getFirestore,collection, addDoc  } from "firebase/firestore"; 
+
 
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useNavigation } from '@react-navigation/core'
 
@@ -16,6 +17,7 @@ const Login = () => {
     useEffect(() => {
     const db = getFirestore();
     const auth = getAuth();
+    
     const unsubscribe = onAuthStateChanged(auth,user => {
         if (user) {
             console.log("connecté", user.email)
@@ -29,18 +31,6 @@ const Login = () => {
       return unsubscribe
     }, [])
 
-
-
-const firebaseConfig = {
-    apiKey: "AIzaSyD2XKLHd0H2O0l2Ae_qXjca7KNkn3U_IuI",
-    authDomain: "topik-3ede8.firebaseapp.com",
-    projectId: "topik-3ede8",
-    storageBucket: "topik-3ede8.appspot.com",
-    messagingSenderId: "774648378964",
-    appId: "1:774648378964:web:e92ddeb98eb174bc15dfc1",
-    measurementId: "G-GNRSP1HQ59"
-  };
-  const app = initializeApp(firebaseConfig);
 
         
     const handleSignUp = () => {
