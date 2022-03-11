@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import * as firebase from '../firebase/config'
-import { doc, setDoc, getFirestore,collection, addDoc  } from "firebase/firestore"; 
+import { doc, setDoc, getFirestore, collection, addDoc  } from "firebase/firestore"; 
 
 
 import { StyleSheet, Text, View, Button, Alert } from 'react-native';
