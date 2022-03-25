@@ -39,11 +39,28 @@ const auth = getAuth();
 
     
 function changeEmail(){
-console.log("email")
+    const auth = getAuth();
+    updateEmail(auth.currentUser, nouveauEmail).then(() => {
+        // Email updated!
+        alert("Vous avez bien changé votre email !")
+        // ...
+      }).catch((error) => {
+          alert(error)
+        // An error occurred
+        // ...
+      });
 }
 
 function changeMDP(){
-    console.log('mdp')
+    const auth = getAuth();
+
+    const user = auth.currentUser;
+
+    updatePassword(user, nouveauMdp).then(() => {
+        alert("Vous avez changé votre mdp")
+    }).catch((error) => {
+        alert(error);
+    });
 }
 
 
@@ -51,17 +68,6 @@ function changeMDP(){
   const Form = () => {
     return (
       <View>
-        <TextInput
-          placeholder="Tapez votre email"
-          onChangeText={(text) => setEmail(text)}
-          style={style.input}
-        />
-        <TextInput
-            placeholder="Password"
-            onChangeText={(text) => setPassword(text)}
-            style={style.input}
-            secureTextEntry
-          />
         <TextInput
           placeholder="Tapez le nouvel email"
           onChangeText={(text) => setNEmail(text)}
@@ -81,11 +87,10 @@ function changeMDP(){
     const auth = getAuth();
     auth.signOut().then(() => {
         navigation.replace("login")
-
     })
 
   }
-  function login() {
+  /*function login() {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, nvEmail, nvPassword)
       .then((userCredential) => {
@@ -99,23 +104,12 @@ function changeMDP(){
         // ...
       })
       .catch((error) => alert(error));
-  }
+  }*/
 
   const relogF = () => {
     return (
       <View>
         <View style={style.inputContainer}>
-          <TextInput
-            placeholder="Email"
-            onChangeText={(text) => setEmail(text)}
-            style={style.input}
-          />
-          <TextInput
-            placeholder="Password"
-            onChangeText={(text) => setPassword(text)}
-            style={style.input}
-            secureTextEntry
-          />
           <TextInput
             placeholder="Nouveau mot de passe"
             onChangeText={(text) => setNPassword(text)}
@@ -123,11 +117,15 @@ function changeMDP(){
             secureTextEntry
           />
         </View>
-        <View style={style.buttonContainer}>
-          <TouchableOpacity onPress={changeMDP()} style={style.button}>
-            <Text style={style.buttonText}>Changer mdp</Text>
-          </TouchableOpacity>
-        </View>
+            <View 
+            style={style.buttonContainer}>
+            <TouchableOpacity
+            onPress={() => changeMDP()}
+            style={style.button}>
+                <Text
+                style={style.buttonText}>Changer mot de passe </Text>
+            </TouchableOpacity>
+            </View>
       </View>
     );
   };
@@ -138,7 +136,7 @@ function changeMDP(){
           <Text>Bienvenue dans la console utilisateurs</Text>
           <View style={style.buttonContainer}>
             <TouchableOpacity
-              onPress={() => Alert.alert("Hello")}
+              onPress={() => setFormulaire(true)}
               style={style.button}
             >
               <Text style={style.buttonText}>Modifier l'adresse mail</Text>
