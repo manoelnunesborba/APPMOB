@@ -1,6 +1,6 @@
 import React, { useEffect, useState, forceUpdate } from "react";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { StyleSheet, Text, View, Button, Alert, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, Alert, FlatList, TouchableHighlight  } from 'react-native';
 import { getAuth } from "firebase/auth";
 
 import { collection, doc, setDoc, getFirestore, getDoc, query, where,getDocs, addDoc  } from "firebase/firestore"; 
@@ -13,6 +13,9 @@ const Feed = () =>{
     const [contenu, setContenu] = useState('');
     const [titre, setTitre] = useState('');
     const [reLoad, setRe] = useState(true);
+    const [afficherTopik, setAfficherTopik] = useState(false);
+    const [codeTopik, setCodeTopik] = useState("");
+
 
 
     useEffect(async () =>{
@@ -38,7 +41,10 @@ const Feed = () =>{
         })
     }
 
-
+    function click(id){
+      setAfficherTopik(true)
+      setCodeTopik(id)
+    }
     async function getData(){
       let newId = getFirestore;
       console.log(newId)
@@ -57,45 +63,72 @@ const Feed = () =>{
       setFormulaire(true)
       settopik(topics)
     }
+    function retour(){
+      setAfficherTopik(false)
+    }
 
-        return (
-          <View style={style.container}>
-            <FlatList
-            style={style.list}
-            data={topik}
-            renderItem={({item})=>(
-              <View>
+    if(!codeTopik){
+      return (
+        <View style={style.container}
+              
+        >
+          <FlatList
+          style={style.list}
+          data={topik}
+          renderItem={({item})=>(
+              <TouchableOpacity 
+              onPress={() => click(item["key"])}
+              >
                 <Text style={style.titre}>{item["data"]["titre"]}</Text>
                 <Text style={style.auteur}>Auteur :{item["data"]["auteur"]}</Text>
                 <Text style={style.contenu}>{item["data"]["contenu"]}</Text>
-              </View>
-            )}
-            />
+              
+              
+              </TouchableOpacity >
+          )}
+          />
 
-            <View style={style.inputContainer}>
-                    <TextInput
-                    placeholder='Titrre'
-                    value={titre}
-                    onChangeText={text => setTitre(text)}
-                    style={style.input}
-                    />
-                    <TextInput
-                    placeholder='contenu'
-                    value={contenu}
-                    onChangeText={text => setContenu(text)}
-                    style={style.input}
-                    />
-                    <View style={style.buttonContainer}>
-                    <TouchableOpacity
-                    onPress={handleCreateTopik}
-                    style={style.button}
-                    >
-                        <Text style={style.buttonText}>Créer un Topik</Text>
-                    </TouchableOpacity>
-                </View>
-                </View>
-          </View>
-        )
+          <View style={style.inputContainer}>
+                  <TextInput
+                  placeholder='Titrre'
+                  value={titre}
+                  onChangeText={text => setTitre(text)}
+                  style={style.input}
+                  />
+                  <TextInput
+                  placeholder='contenu'
+                  value={contenu}
+                  onChangeText={text => setContenu(text)}
+                  style={style.input}
+                  />
+                  <View style={style.buttonContainer}>
+                  <TouchableOpacity
+                  onPress={handleCreateTopik}
+                  style={style.button}
+                  >
+                      <Text style={style.buttonText}>Créer un Topik</Text>
+                  </TouchableOpacity>
+              </View>
+              </View>
+        </View>
+      )
+    }else{
+      return(
+        <View style={style.container}>
+          <Text>{codeTopik}</Text>
+          <TouchableOpacity
+                  onPress={() => retour()}
+                  style={style.button}
+                  >
+                      <Text style={style.buttonText}>Retour</Text>
+                  </TouchableOpacity>
+
+        </View>
+      )
+    }
+      
+   
+       
 }
 export default Feed;
 const style = StyleSheet.create({
