@@ -129,7 +129,7 @@ function changeMDP(){
       </View>
     );
   };
-
+    // ajouter les infos utilisateurs !
     return (
       <View>
         <KeyboardAvoidingView style={style.container} behavior="padding">
